@@ -14,3 +14,12 @@ You can open any url by right clicking on it and selecting ```Open in Tana```.
 ## Local Content
 
 You can open any local content by just right clicking on Tana in the tray, click on  ```Open file``` and choose your desirer content.
+
+## Shortcuts
+
+- Click-through and See-through: 
+  - Win: ```Ctrl+Shift+t```
+  - OSX: ```Cmd+Shift+t```
+- Quit application: 
+  - Win: ```Ctrl+Shift+q```
+  - OSX: ```Cmd+Shift+q```
