@@ -3,9 +3,10 @@
 
 Bringing the Picture-in-Picture experience to desktop. Let's you keep a window in front of everything, whether it is a webpage or a video.
 
+![screenshot_1](./static/screenshot_1.png)
+
 ## Story time 🙌
 A few months ago I started looking for a program that let me have a Picture-in-Picture mode on a Windows machine, primarily to watch Netflix and YouTube/Twitch streamings (mainly e-sports) while coding, found nothing that met my needs. Reading on [electron's reddit](https://www.reddit.com/r/electronjs/) I came across with this [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/), it's about the process of publishing an Electron app to the App Store, turns out that app was about what I've been looking for, but sadly it's only available on MacOS (Can't afford a Mac 😔) so I decided to give it try at developing my own.
-
 
 ## Current state of the project
 The project it's in a very **ALPHA state** as I started this project just for myself and most of it's code was done in a "hurry" just to have something working up.
