@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Open in Tana.",
+  "version": "0.1.0",
+  "description": "Open any url on a new window in Tana.",
+  "icons": {
+    "16": "icons/icon_16.png",
+    "32": "icons/icon_32.png",
+    "48": "icons/icon_48.png",
+    "96": "icons/icon_96.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/icon_16.png",
+      "32": "icons/icon_32.png"
+    },
+    "default_title": "Open the current tab in Tana."
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "tabs"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  }
+}

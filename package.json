@@ -1,0 +1,53 @@
+{
+  "name": "tana",
+  "version": "0.1.0",
+  "description": "Bringing the Picture-in-Picture experience to desktop. Let's you keep a window in front of everything, whether it is a webpage or a video.",
+  "keywords": [
+    "Electron",
+    "PiP",
+    "Tana",
+    "Window"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Josue Mavarez",
+    "email": "josuemavarez@gmail.com",
+    "url": "https://github.com/jMavarez"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jMavarez/Tana.git"
+  },
+  "scripts": {
+    "install-ffmpeg": "node ./bin/install.js",
+    "build": "webpack --mode=production --env.IS_PRODUCTION",
+    "dev": "webpack --mode=development && electron index.js",
+    "package": "node ./bin/package.js",
+    "prod": "npm run build && electron index.js",
+    "start": "electron ./src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "bluebird": "^3.5.1",
+    "chalk": "^2.4.1",
+    "cross-zip": "^2.1.5",
+    "electron": "^1.8.4",
+    "electron-packager": "^12.0.1",
+    "electron-unhandled": "^1.1.0",
+    "electron-widevinecdm": "^6.0.0",
+    "electron-winstaller": "^2.6.4",
+    "express": "^4.16.3",
+    "ffbinaries": "^1.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "plyr": "^3.2.0",
+    "rimraf": "^2.6.2",
+    "run-series": "^1.1.8",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "winston": "^2.4.1",
+    "winston-electron": "^0.2.0"
+  }
+}
