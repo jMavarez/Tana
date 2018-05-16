@@ -4,11 +4,11 @@ import Plyr from 'plyr';
 
 import { getEmbededUrl, isMediaLink } from './url.utils';
 import { moveSeeThrough, disableMoveSeeThrough } from './window.utils';
-import { PORT } from './config';
+import { PORT, MUTE_IMG, UNMUTE_IMG } from './config';
 
 window.onresize = doLayout;
 
-let titlebar = null, title = null, favicon = null;
+let titlebar = null, title = null, favicon = null, muteImg = null;
 let state = {};
 let isMuted = false;
 let previousWidth = -1, previousHeight = -1;
@@ -27,6 +27,7 @@ onload = () => {
   let close = document.querySelector('.close');
   let hide = document.querySelector('.hide');
   let mute = document.querySelector('.mute');
+  muteImg = document.querySelector('#mute-img');
 
   close.addEventListener('mouseup', () => {
     remote.app.emit('removeWindowFromStack', { id: windowInstance.id });
@@ -135,6 +136,8 @@ function hideLoader() {
 }
 
 function shouldMute(shouldMute) {
+  muteImg.src = shouldMute ? UNMUTE_IMG : MUTE_IMG;
+
   switch (state.type) {
     case 'link':
       let webview = document.querySelector('webview');
