@@ -1,6 +1,7 @@
 import ElectronConsole from 'winston-electron';
 import winston from 'winston';
 import path from 'path';
+import fs from 'fs';
 
 const Log = new winston.Logger({
   transports: [
@@ -9,7 +10,7 @@ const Log = new winston.Logger({
       handleExceptions: true
     }),
     new winston.transports.File({
-      filename: path.join(directory(), 'Tana.log.txt'),
+      filename: path.join(directory(), 'tana.log.txt'),
       json: true,
       handleExceptions: true,
       prettyPrint: true,
@@ -28,7 +29,16 @@ function directory() {
     prefDir = path.join(process.env.APPDATA, 'Tana');
   }
 
+  if (!fs.existsSync(prefDir)) {
+    fs.mkdirSync(prefDir);
+  }
+
   return prefDir;
 }
+
+Log.exitOnError = (err) => {
+  // Check what to do, return false for now
+  return false;
+};
 
 export default Log;
