@@ -36,8 +36,8 @@ I'm completely open to new ideas and suggestions! Put up an [issue](https://gith
 ## Future Features
 Check out the [Feature tag in Issues](https://github.com/jMavarez/Tana/labels/feature) to see all in progress and upcoming ideas.
 
-## Development
-
+## Development/Running
+Currently there's no excutables or installers for each platform so you have to run it with npm for now.
 ```
   npm install
   npm run install-ffmpeg ---> Run only the first time you clone the repo
