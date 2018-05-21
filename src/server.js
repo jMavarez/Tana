@@ -30,43 +30,62 @@ export const createServer = (app) => {
   });
 
   server.get('/video', (req, res) => {
-    let filePath = req.query.filepath;
-    let file = path.resolve(filePath);
+    const filePath = req.query.filepath;
+    const range = req.headers.range;
+    const file = path.resolve(filePath);
+    const fileStat = fs.statSync(file);
+    const fileSize = fileStat.size;
 
-    fs.stat(file, (err, stats) => {
-      let range = req.headers.range;
-      let positions = range.replace(/bytes=/, "").split("-");
-      let start = parseInt(positions[0], 10);
-      let total = stats.size;
-      let end = positions[1] ? parseInt(positions[1], 10) : total - 1;
-      let chunksize = (end - start) + 1;
+    // Calculate chunks
+    if (range) {
+      const positions = range.replace(/bytes=/, "").split("-");
+      const start = parseInt(positions[0], 10);
+      const end = positions[1] ? parseInt(positions[1], 10) : fileSize - 1;
+      const chuckSize = (end - start) + 1;
 
-      res.writeHead(200, {
-        "Content-Range": "bytes " + start + "-" + end + "/" + total,
+      let headers = {
+        "Content-Range": `bytes ${start}-${end}/${fileSize}`,
         "Accept-Ranges": "bytes",
-        "Content-Length": chunksize,
+        "Content-Length": chuckSize,
         'Content-Type': 'video/mp4',
-      });
+        'Connection': 'keep-alive'
+      };
 
-      console.log('File info:', {
-        "Content-Range": "bytes " + start + "-" + end + "/" + total,
-        "Accept-Ranges": "bytes",
-        "Content-Length": chunksize,
+      res.writeHead(206, headers);
+    } else {
+      let headers = {
+        "Content-Length": fileSize,
         'Content-Type': 'video/mp4',
-      });
-      console.log('Streaming video...', filePath);
+      };
 
-      ffmpeg(filePath)
-        .format('mp4')
-        .addOptions([
-          '-movflags frag_keyframe+faststart'
-        ])
-        .on('error', (err) => {
-          Log.error(err.message);
-        })
-        .pipe(res, { end: true });
-    });
+      res.writeHead(200, headers);
+    }
+
+    console.log('Streaming video...', filePath);
+
+    ffmpeg(filePath)
+      .format('mp4')
+      .outputOption('-movflags frag_keyframe+faststart')
+      .on('error', (err) => {
+        Log.error(err.message);
+      })
+      .pipe(res, { end: true });
   });
 
   server.listen(PORT, () => console.log(`SERVER: App listening on port ${PORT}.`));
+
+  process.on('uncaughtException', (err) => {
+    switch (err.errno) {
+      case 'EACCES':
+        Log.error('Port ' + PORT + ' requires elevated privileges!');
+        app.exit();
+        break;
+      case 'EADDRINUSE':
+        Log.error('Port ' + PORT + ' is already in use!');
+        app.exit();
+        break;
+      default:
+        throw err;
+    }
+  });
 }

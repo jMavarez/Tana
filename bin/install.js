@@ -10,7 +10,7 @@ function install() {
 }
 
 function downloadFfmpeg() {
-  if (ffmpegExists()) {
+  if (!ffmpegExists()) {
     log.info('Downloading ffmpeg binaries for ' + process.platform + ' in ' + dest);
     ffbinaries.downloadBinaries(['ffmpeg'], { destination: dest }, () => {
       log.success(`Downloaded ffmpeg!`);
@@ -23,9 +23,9 @@ function downloadFfmpeg() {
 function ffmpegExists() {
   switch (process.platform) {
     case 'win32':
-      return !fs.existsSync(path.join(dest, 'ffmpeg.exe'));
+      return fs.existsSync(path.join(dest, 'ffmpeg.exe'));
     case 'darwin':
-      return !fs.existsSync(path.join(dest, 'ffmpeg'));
+      return fs.existsSync(path.join(dest, 'ffmpeg'));
   }
 }
 

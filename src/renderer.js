@@ -164,7 +164,6 @@ function setupWebView(link) {
 
   webview.setAttribute('partition', 'persist:tana');
   webview.setAttribute('plugins', '');
-  wrapper.append(webview);
 
   webview.addEventListener('dom-ready', () => {
     webview.insertCSS(`
@@ -203,6 +202,8 @@ function setupWebView(link) {
     console.log('error', e);
   });
 
+  wrapper.append(webview);
+
   doLayout();
 }
 
@@ -213,9 +214,8 @@ function setupVideo(file) {
 
   let wrapper = document.querySelector('.wrapper');
   let video = document.createElement('video');
-  wrapper.append(video);
 
-  video.src = file;
+  video.setAttribute('src', file);
 
   video.addEventListener('canplay', () => {
     setupPlyr(video);
@@ -223,13 +223,14 @@ function setupVideo(file) {
   });
 
   video.addEventListener('error', (e) => {
+    console.error('video', e);
     switch (video.error.code) {
       case video.error.MEDIA_ERR_DECODE:
         console.error('video', 'MEDIA_ERR_DECODE');
         break;
       case video.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
         console.error('video', 'MEDIA_ERR_SRC_NOT_SUPPORTED');
-        video.src = `http://127.0.0.1:${PORT}/video?filepath=${encodeURIComponent(file)}`;
+        video.setAttribute('src', `http://127.0.0.1:${PORT}/video?filepath=${encodeURIComponent(file)}`);
         break;
       case video.error.MEDIA_ERR_ABORTED:
         console.error('video', 'MEDIA_ERR_ABORTED');
@@ -238,9 +239,11 @@ function setupVideo(file) {
         console.error('video', 'MEDIA_ERR_NETWORK');
         break;
       default:
+        console.error('video', video.error);
     }
   });
 
+  wrapper.append(video);
 
   doLayout();
 }
@@ -248,6 +251,9 @@ function setupVideo(file) {
 function setupPlyr(element) {
   let player = new Plyr(element, {
     debug: !IS_PRODUCTION,
+    controls:
+      ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions']
+    ,
     fullscreen: {
       enabled: false
     },
