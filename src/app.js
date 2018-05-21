@@ -51,8 +51,12 @@ app.on('ready', () => {
   });
 
   globalShortcut.register('CmdOrCtrl+Shift+q', () => {
-    tray.quit();
+    app.exit();
   });
+});
+
+app.on('before-quit', (e) => {
+  e.preventDefault();
 });
 
 app.on('quit', (e) => {

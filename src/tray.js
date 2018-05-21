@@ -8,7 +8,6 @@ import { showAll, hideAll, muteAll, unmuteAll } from './window.manager';
 import { openFile } from './dialog';
 
 let tray;
-let shouldQuit = false;
 
 let template = [
   {
@@ -101,15 +100,6 @@ export function removeWindowItem(id) {
   updateTrayMenu();
 }
 
-export function quit() {
-  exitApp();
-}
-
-function exitApp() {
-  shouldQuit = true;
-  app.quit();
-}
-
 function createTray() {
   tray = new Tray(APP_ICON + '.png');
   updateTrayMenu();
@@ -119,9 +109,3 @@ function updateTrayMenu() {
   const contextMenu = Menu.buildFromTemplate(template)
   tray.setContextMenu(contextMenu)
 }
-
-app.on('before-quit', (e) => {
-  if (!shouldQuit) {
-    e.preventDefault();
-  }
-});
