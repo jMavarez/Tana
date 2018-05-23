@@ -25,6 +25,10 @@ The whole reason of open sourcing it is to learn while other people collaborate.
 
 ## [Usage](./USAGE.md)
 
+<div style="text-align:center;">
+  <img src ="https://media.giphy.com/media/7A4rTKe7sEBGutu3tV/giphy.gif" />
+</div>
+
 ## [Change Log](./CHANGELOG.md)
 
 ## Contribute
