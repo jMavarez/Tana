@@ -9,13 +9,11 @@ import { openFile } from './dialog';
 
 let tray;
 
-let template = [
-  {
-    type: 'separator'
-  },
+let windowsOnTray = [];
+let options = [
   {
     label: "Open file",
-    click: () => openFile()
+    click: () => openFile(),
   },
   {
     label: "Show all",
@@ -33,32 +31,35 @@ let template = [
     label: "Unmute all",
     click: () => unmuteAll(),
   },
-  // {
-  //   label: "Toggle see through",
-  //   click: () => toggleMoveSeeThrough(),
-  // },
   {
-    type: 'separator'
+    label: "Toggle see through - Soon...",
+    // click: () => toggleMoveSeeThrough(),
+    enabled: false,
   },
   {
-    label: "History",
-    click: () => openHistory()
+    type: 'separator',
   },
   {
-    label: "Settings",
-    click: () => openSettings()
+    label: "History - Soon...",
+    click: () => openHistory(),
+    enabled: false,
+  },
+  {
+    label: "Settings - Soon...",
+    click: () => openSettings(),
+    enabled: false,
   },
   {
     label: "Quit",
     accelerator: "CommandOrControl+Shift+q",
-    click: () => app.exit()
+    click: () => app.exit(),
   },
   {
-    type: 'separator'
+    type: 'separator',
   },
   {
     label: `Version ${APP_VERSION}`,
-    enabled: false
+    enabled: false,
   },
 ];
 
@@ -75,7 +76,8 @@ export function init() {
 }
 
 export function addWindowItem(item = {}) {
-  let shouldAdd = template.filter(i => i.id === item.id).length <= 0;
+  let shouldAdd = windowsOnTray.filter(i => i.id === item.id).length <= 0;
+
   if (shouldAdd) {
     item.click = () => {
       let w = BrowserWindow.fromId(item.id);
@@ -85,17 +87,21 @@ export function addWindowItem(item = {}) {
       }
     };
 
-    template = [item, ...template]
+    windowsOnTray = [item, ...windowsOnTray, { type: 'separator' }];
     updateTrayMenu();
   }
 }
 
 export function removeWindowItem(id) {
-  template = template.filter(item => {
+  windowsOnTray = windowsOnTray.filter(item => {
     if (item.id) {
       if (item.id !== id) return item;
     } else return item;
   });
+
+  if (windowsOnTray.length <= 1) {
+    windowsOnTray = [];
+  }
 
   updateTrayMenu();
 }
@@ -106,6 +112,7 @@ function createTray() {
 }
 
 function updateTrayMenu() {
-  const contextMenu = Menu.buildFromTemplate(template)
-  tray.setContextMenu(contextMenu)
+  const template = [...windowsOnTray, ...options];
+  const contextMenu = Menu.buildFromTemplate(template);
+  tray.setContextMenu(contextMenu);
 }
