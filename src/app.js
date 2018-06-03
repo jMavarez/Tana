@@ -15,13 +15,13 @@ import { createWindow, windowExists } from './window.utils'
 import * as tray from './tray';
 import * as windowManager from './window.manager';
 import { APP_VERSION, MASK_RADIUS } from './config';
-import Log from './logger';
 
 let refreshMousePointerId = null;
 let shouldMoveSeeThrough = false;
 
 // Test on MacOS
 if (process.platform !== 'win32') {
+  console.log('Loading widevine...');
   widevine.load(app);
 }
 // TODO: Get widevinecdm working on Windows

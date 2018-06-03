@@ -51,7 +51,7 @@ let template = [
   {
     label: "Quit",
     accelerator: "CommandOrControl+Shift+q",
-    click: () => exitApp()
+    click: () => app.exit()
   },
   {
     type: 'separator'
