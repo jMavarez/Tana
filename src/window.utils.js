@@ -45,8 +45,6 @@ export const createWindow = ({ x, y, data }) => {
   win.on('browser-window-focus', (e) => {
     console.log('browser-window-focus', e);
   });
-
-  return win;
 }
 
 export const windowExists = (w) => !(!w || (w && w.isDestroyed()));
