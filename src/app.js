@@ -2,19 +2,15 @@ import './error.handler';
 import electron, {
   app,
   BrowserWindow,
-  dialog,
   globalShortcut,
 } from 'electron';
-import { execSync } from 'child_process';
-import path from 'path';
-import url from 'url';
 import widevine from 'electron-widevinecdm';
 
 import { createServer } from './server';
 import { createWindow, windowExists } from './window.utils'
 import * as tray from './tray';
 import * as windowManager from './window.manager';
-import { APP_VERSION, MASK_RADIUS } from './config';
+// import { MASK_RADIUS } from './config';
 
 let refreshMousePointerId = null;
 let shouldMoveSeeThrough = false;
