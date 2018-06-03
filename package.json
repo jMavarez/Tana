@@ -1,6 +1,6 @@
 {
   "name": "tana",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Bringing the Picture-in-Picture experience to desktop. Let's you keep a window in front of everything, whether it is a webpage or a video.",
   "keywords": [
     "Electron",
