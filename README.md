@@ -1,9 +1,13 @@
+<p align="center">
+  <img src ="./resources/banner_icon.png" />
+</p>
+
 # Tana
 [![license](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 Bringing the Picture-in-Picture experience to desktop. Let's you keep a window in front of everything, whether it is a webpage or a video.
 
-![screenshot_1](./static/screenshot_1.png)
+![screenshot_1](./resources/screenshot_1.png)
 
 ## Story time 🙌
 A few months ago I started looking for a program that let me have a Picture-in-Picture mode on a Windows machine, primarily to watch Netflix and YouTube/Twitch streamings (mainly e-sports) while coding, found nothing that met my needs. Reading on [electron's reddit](https://www.reddit.com/r/electronjs/) I came across with this [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/), it's about the process of publishing an Electron app to the App Store, turns out that app was about what I've been looking for, but sadly it's only available on MacOS (Can't afford a Mac 😔) so I decided to give it try at developing my own.
@@ -25,9 +29,9 @@ The whole reason of open sourcing it is to learn while other people collaborate.
 
 ## [Usage](./USAGE.md)
 
-<div style="text-align:center;">
+<p align="center">
   <img src ="https://media.giphy.com/media/7A4rTKe7sEBGutu3tV/giphy.gif" />
-</div>
+</p>
 
 ## [Change Log](./CHANGELOG.md)
 
@@ -58,6 +62,7 @@ To open any link from your Chrome Browser you need to add the chrome-extension, 
 
 ## Special thanks ❤
 - [@yoannmoinet](https://github.com/yoannmoinet) The creator of [Fenêtre](https://xn--fent-ipa.re/). Thank you for some insights and for the awesome [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/).
+- [@ssnjrthegr8](https://github.com/ssnjrthegr8) Logo designer. Thank you so much!
 
 ### And... if you want... [Buy me a coffee?](https://www.buymeacoffee.com/PxXloW02f) ☕️
 

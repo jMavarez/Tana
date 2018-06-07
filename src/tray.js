@@ -107,7 +107,7 @@ export function removeWindowItem(id) {
 }
 
 function createTray() {
-  tray = new Tray(APP_ICON + '.png');
+  tray = new Tray(getIconPath());
   updateTrayMenu();
 }
 
@@ -115,4 +115,10 @@ function updateTrayMenu() {
   const template = [...windowsOnTray, ...options];
   const contextMenu = Menu.buildFromTemplate(template);
   tray.setContextMenu(contextMenu);
+}
+
+function getIconPath() {
+  return process.platform === 'win32'
+    ? APP_ICON + '.ico'
+    : APP_ICON + '.png'
 }
