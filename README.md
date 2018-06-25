@@ -64,7 +64,8 @@ To open any link from your Chrome Browser you need to add the chrome-extension, 
 - [@yoannmoinet](https://github.com/yoannmoinet) The creator of [Fenêtre](https://xn--fent-ipa.re/). Thank you for some insights and for the awesome [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/).
 - [@ssnjrthegr8](https://github.com/ssnjrthegr8) Logo designer. Thank you so much!
 
-### And... if you want... [Buy me a coffee?](https://www.buymeacoffee.com/PxXloW02f) ☕️
+### And... if you want... 
+<a href="https://www.buymeacoffee.com/PxXloW02f" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## License
 
