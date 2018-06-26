@@ -94,7 +94,12 @@ export function addWindowItem(item = {}) {
       }
     };
 
-    windowsOnTray = [item, ...windowsOnTray, { type: 'separator' }];
+    windowsOnTray = [item, ...windowsOnTray];
+
+    if (windowsOnTray.length <= 1) {
+      windowsOnTray = [...windowsOnTray, { type: 'separator' }];
+    }
+
     updateTrayMenu();
   }
 }
