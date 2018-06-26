@@ -1,4 +1,4 @@
-import electron, { dialog, BrowserWindow } from 'electron';
+import electron, { BrowserWindow } from 'electron';
 
 import { createWindow, windowExists } from './window.utils';
 

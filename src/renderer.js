@@ -30,7 +30,12 @@ onload = () => {
   muteImg = document.querySelector('#mute-img');
 
   close.addEventListener('mouseup', () => {
-    remote.app.emit('removeWindowFromStack', { id: windowInstance.id });
+    remote.app.emit('removeWindowFromStack', {
+      id: windowInstance.id,
+      title: document.title,
+      type: state.type,
+      payload: state.payload,
+    });
   });
 
   hide.addEventListener('mouseup', () => {

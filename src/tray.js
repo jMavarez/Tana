@@ -1,19 +1,22 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron';
-import { execSync } from 'child_process';
-import path from 'path';
 
 import { APP_ICON, APP_VERSION } from './config';
 import { windowExists } from './window.utils';
-import { showAll, hideAll, muteAll, unmuteAll } from './window.manager';
+import { showAll, hideAll, muteAll, unmuteAll, add } from './window.manager';
 import { openFile } from './dialog';
 
 let tray;
 
 let windowsOnTray = [];
+let recentWindows = [];
 let options = [
   {
     label: "Open file",
     click: () => openFile(),
+  },
+  {
+    label: "Recently Opened",
+    submenu: [],
   },
   {
     label: "Show all",
@@ -33,16 +36,10 @@ let options = [
   },
   {
     label: "Toggle see through - Soon...",
-    // click: () => toggleMoveSeeThrough(),
     enabled: false,
   },
   {
     type: 'separator',
-  },
-  {
-    label: "History - Soon...",
-    click: () => openHistory(),
-    enabled: false,
   },
   {
     label: "Settings - Soon...",
@@ -73,6 +70,16 @@ function openHistory() {
 
 export function init() {
   createTray();
+}
+
+export function addToRecentlyOpened(item) {
+  item.click = () => {
+    add({ type: item.data.type, payload: item.data.payload });
+  }
+
+  recentWindows = [item, ...recentWindows];
+  options[1].submenu = recentWindows;
+  updateTrayMenu();
 }
 
 export function addWindowItem(item = {}) {
