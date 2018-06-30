@@ -1,43 +1,26 @@
-const PORT = 12043;
+const SIZE = 300;
 
 const open = () => {
   chrome.tabs.query({
     active: true,
     currentWindow: true
   },
-    (tabs) => openUrl(tabs[0].url)
+    (tabs) => openWindow(tabs[0].url)
   );
 };
 
-const openUrl = (url) => {
-  req(url, (e) => {
-    if (e) {
-      alert("Something bad happened :(. Are you running Tana?");
-    } else {
-      alert("Opening on Tana!");
-    }
+const openWindow = (url) => {
+  chrome.windows.create({
+    width: SIZE,
+    height: SIZE,
+    url: 'loader/loader.html',
+    type: 'panel',
+  }, (win) => {
+    setTimeout(() => {
+      chrome.tabs.sendMessage(win.tabs[0].id, { url });
+    }, 100);
   });
-};
-
-const req = (url, cb) => {
-  const req = new XMLHttpRequest();
-
-  req.onreadystatechange = (e) => {
-    const target = e.target;
-    if (target.readyState === XMLHttpRequest.DONE) {
-      if (target.status === 200) {
-        return cb();
-      } else {
-        return cb(target);
-      }
-    }
-  };
-
-  req.onError = (e) => cb(e);
-
-  req.open('GET', `http://127.0.0.1:${PORT}/open?url=${encodeURIComponent(url)}`, true);
-  req.send();
-};
+}
 
 chrome.contextMenus.removeAll(() => {
   chrome.contextMenus.create({
