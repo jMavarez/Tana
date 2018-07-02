@@ -28,7 +28,7 @@ chrome.contextMenus.removeAll(() => {
     title: 'Open in Tana',
     contexts: ['link']
   }, () => {
-    chrome.contextMenus.onClicked.addListener(({ linkUrl }) => openUrl(linkUrl));
+    chrome.contextMenus.onClicked.addListener(({ linkUrl }) => openWindow(linkUrl));
   });
 });
 
