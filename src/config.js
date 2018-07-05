@@ -1,6 +1,7 @@
 let package = require('../package.json');
 let path = require('path');
 
+const APP_AUTHOR = package.author.name;
 const APP_ICON = path.join(__dirname, '..', 'static', 'tana');
 const APP_NAME = "Tana";
 const APP_DESCRIPTION = package.description;
@@ -35,6 +36,8 @@ function ffmpegPath() {
 }
 
 module.exports = {
+  APP_AUTHOR,
+  APP_DESCRIPTION,
   APP_ICON,
   APP_NAME,
   APP_VERSION,

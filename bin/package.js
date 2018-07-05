@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const cp = require('child_process')
 const config = require('../src/config')
 const electronPackager = require('electron-packager')
@@ -5,10 +7,8 @@ const fs = require('fs')
 const path = require('path')
 const log = require('./log')
 const minimist = require('minimist')
-const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
 const series = require('run-series')
-const zip = require('cross-zip')
 
 const BUILD_NAME = config.APP_NAME + '-' + config.APP_VERSION
 const ROOT_PATH = path.join(__dirname, '..')
@@ -17,15 +17,11 @@ const BUILD_PATH = path.join(ROOT_PATH, 'build')
 const NODE_MODULES_PATH = path.join(ROOT_PATH, 'node_modules')
 
 const argv = minimist(process.argv.slice(2), {
-  string: [
-    'package'
-  ],
   boolean: [
     'sign',
     'install-deps'
   ],
   default: {
-    package: 'all',
     sign: false,
     'install-deps': false
   }
@@ -54,19 +50,19 @@ function package() {
   if (platform === 'win32') {
     buildWin32(printDone)
   } else {
-    log.error('MacOS/Linux build is not supported yet.')
+    log.error('MacOS, Linux builds are not supported just yet.')
   }
 }
 
 const all = {
-  'app-version': config.APP_VERSION,
+  appVersion: config.APP_VERSION,
   asar: {
     unpack: 'Tana*',
     unpackDir: 'node_modules/electron-widevinecdm/widevine'
   },
-  'build-version': config.APP_VERSION,
+  buildVersion: config.APP_VERSION,
   dir: ROOT_PATH,
-  ignore: /^\/src|^\/dist|^\/bin|^\/chrome-extension|\/(AUTHORS|CONTRIBUTORS|\.github|test|tests|test\.js|tests\.js|\.[^/]*|.*\.md|.*\.markdown)$/,
+  ignore: /^\/src|^\/dist|^\/bin|^\/chrome-extension|^\/resources|\/(AUTHORS|CONTRIBUTORS|\.github|test|tests|test\.js|tests\.js|\.[^/]*|.*\.md|.*\.markdown)$/,
   name: config.APP_NAME,
   out: DIST_PATH,
   overwrite: true,
@@ -104,13 +100,7 @@ function buildWin32(cb) {
     const tasks = []
     buildPath.forEach((filesPath) => {
       const destArch = filesPath.split('-').pop()
-
-      if (argv.package === 'exe' || argv.package === 'all') {
-        tasks.push((cb) => packageInstaller(filesPath, destArch, cb))
-      }
-      if (argv.package === 'portable' || argv.package === 'all') {
-        tasks.push((cb) => packagePortable(filesPath, destArch, cb))
-      }
+      tasks.push((cb) => packageInstaller(filesPath, destArch, cb))
     })
 
     series(tasks, cb)
@@ -119,11 +109,10 @@ function buildWin32(cb) {
       log.info(`Windows: Creating ${destArch} installer...`)
 
       const arch = destArch === 'ia32' ? '-ia32' : ''
-
-      installer.createWindowsInstaller({
+      const winInstallerConfig = {
         appDirectory: filesPath,
-        authors: "Josue Mavarez",
-        description: config.APP_NAME,
+        authors: config.APP_AUTHOR,
+        description: config.APP_DESCRIPTION,
         exe: config.APP_NAME + '.exe',
         name: config.APP_NAME,
         noMsi: true,
@@ -134,8 +123,17 @@ function buildWin32(cb) {
         title: config.APP_NAME,
         usePackageJson: false,
         version: config.APP_VERSION
-      }).then(() => {
-        log.success(`Windows: Created ${destArch} installer.`)
+      }
+
+      if (argv.sign) {
+        Object.assign({}, winInstallerConfig, {
+          certificateFile: process.env.WINDOWS_CERTIFICATE_FILE,
+          certificatePassword: process.env.WINDOWS_CERTIFICATE_PASSWORD
+        })
+      }
+
+      installer.createWindowsInstaller(winInstallerConfig).then(() => {
+        log.success(`Windows: Created ${destArch} ${argv.sign ? 'signed' : ''} installer.`)
 
         fs.readdirSync(DIST_PATH)
           .filter((name) => name.endsWith('.nupkg') && !name.includes(config.APP_VERSION))
@@ -147,10 +145,7 @@ function buildWin32(cb) {
           log.info('Windows: Renaming ia32 installer files...')
 
           const relPath = path.join(DIST_PATH, 'RELEASES-ia32')
-          fs.renameSync(
-            path.join(DIST_PATH, 'RELEASES'),
-            relPath
-          )
+          fs.renameSync(path.join(DIST_PATH, 'RELEASES'), relPath)
 
           fs.renameSync(
             path.join(DIST_PATH, config.APP_NAME + '-' + config.APP_VERSION + '-full.nupkg'),
@@ -172,35 +167,12 @@ function buildWin32(cb) {
       })
         .catch(cb)
     }
-
-    function packagePortable(filesPath, destArch, cb) {
-      log.info(`Windows: Creating ${destArch} portable app...`)
-
-      const portablePath = path.join(filesPath, 'Portable Settings')
-      mkdirp.sync(portablePath)
-
-      const downloadsPath = path.join(portablePath, 'Downloads')
-      mkdirp.sync(downloadsPath)
-
-      const tempPath = path.join(portablePath, 'Temp')
-      mkdirp.sync(tempPath)
-
-      const archStr = destArch === 'ia32' ? '-ia32' : ''
-
-      const inPath = path.join(DIST_PATH, path.basename(filesPath))
-      const outPath = path.join(DIST_PATH, BUILD_NAME + '-Windows' + archStr + '.zip')
-      zip.zipSync(inPath, outPath)
-
-      log.success(`Windows: Created ${destArch} portable app.`)
-      cb(null)
-    }
   })
 }
 
 function printDone(err) {
   if (err) log.error(err.message || err)
   else log.success('Finished!')
-
 }
 
 package()

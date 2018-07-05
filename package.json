@@ -20,18 +20,20 @@
     "url": "git://github.com/jMavarez/Tana.git"
   },
   "scripts": {
+    "start": "electron ./src/main.js",
     "install-ffmpeg": "node ./bin/install.js",
     "build": "webpack --mode=production --env.IS_PRODUCTION",
     "dev": "webpack --mode=development && electron index.js",
-    "package": "node ./bin/package.js",
     "prod": "npm run build && electron index.js",
-    "start": "electron ./src/main.js",
+    "package": "node ./bin/package.js",
+    "package:win32": "node ./bin/package.js win32 --sign",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
     "chalk": "^2.4.1",
     "cross-zip": "^2.1.5",
+    "dotenv": "^6.0.0",
     "electron": "^1.8.4",
     "electron-packager": "^12.0.1",
     "electron-unhandled": "^1.1.0",
