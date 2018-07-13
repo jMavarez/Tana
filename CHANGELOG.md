@@ -1,7 +1,7 @@
 # Changelog
 
 <a name="0.2.1" />
-## 0.2.1 (May 3rd, 2018)
+## 0.2.1 (June 3rd, 2018)
 
 #### Update
 - Server side streaming.
