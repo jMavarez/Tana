@@ -1,5 +1,3 @@
-import url from 'url';
-
 export function getEmbededUrl(link) {
   let url = new URL(link);
 

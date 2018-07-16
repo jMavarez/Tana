@@ -47,9 +47,9 @@ Check out the [Feature tag in Issues](https://github.com/jMavarez/Tana/labels/fe
 ## Development/Running
 Currently there's no excutables or installers for each platform so you have to run it with npm for now.
 ```
-  npm install
-  npm run install-ffmpeg ---> Run only the first time you clone the repo
-  npm run dev
+  yarn
+  yarn install-ffmpeg ---> Run only the first time you clone the repo
+  yarn dev
 ```
 
 ## Chrome Extension
@@ -64,7 +64,7 @@ To open any link from your Chrome Browser you need to add the chrome-extension, 
 - [@yoannmoinet](https://github.com/yoannmoinet) The creator of [Fenêtre](https://xn--fent-ipa.re/). Thank you for some insights and for the awesome [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/).
 - [@ssnjrthegr8](https://github.com/ssnjrthegr8) Logo designer. Thank you so much!
 
-### And... if you want... 
+### And... if you want...
 <a href="https://www.buymeacoffee.com/PxXloW02f" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## License
