@@ -22,11 +22,14 @@ const Log = new winston.Logger({
 
 function directory() {
   let prefDir;
+  let platform = process.platform;
 
-  if (process.platform === 'darwin') {
+  if (platform === 'win32') {
+    prefDir = path.join(process.env.APPDATA, 'Tana');
+  } else if (platform === 'darwin'){
     prefDir = path.join(process.env.HOME, 'Library/Application Support/Tana');
   } else {
-    prefDir = path.join(process.env.APPDATA, 'Tana');
+    prefDir = path.join(process.env.HOME, '/Tana');
   }
 
   if (!fs.existsSync(prefDir)) {
