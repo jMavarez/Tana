@@ -25,6 +25,7 @@ The whole reason of open sourcing it is to learn while other people collaborate.
 - Click-through and See-through
 - Hide window to menu tray
 - Mute window
+- View recently open links
 - More to come...
 
 ## [Usage](./USAGE.md)

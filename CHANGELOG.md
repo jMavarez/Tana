@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="0.2.3" />
+## 0.2.3 (July 22nd, 2018)
+
+#### Update
+- View recently open links.
+
+#### Fixes
+- Fixed missing Preference folder on Linux.
+
 <a name="0.2.1" />
 ## 0.2.1 (June 3rd, 2018)
 
