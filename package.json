@@ -20,14 +20,14 @@
     "url": "git://github.com/jMavarez/Tana.git"
   },
   "scripts": {
-    "start": "electron ./src/main.js",
-    "install-ffmpeg": "node ./bin/install.js",
-    "build": "webpack --mode=production --env.IS_PRODUCTION",
-    "dev": "webpack --mode=development && electron index.js",
-    "prod": "npm run build && electron index.js",
+    "start": "electron ./build/main.js",
+    "build": "yarn run webpack:build",
+    "build:dev": "yarn run build --mode=development --watch",
+    "build:prod": "yarn run build --mode=production --env.IS_PRODUCTION",
+    "webpack:build": "webpack --config webpack.config.js",
     "package": "node ./bin/package.js",
     "package:win32": "node ./bin/package.js win32 --sign",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install-ffmpeg": "node ./bin/install.js"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
@@ -46,6 +46,7 @@
     "plyr": "^3.2.0",
     "rimraf": "^2.6.2",
     "run-series": "^1.1.8",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14",
     "winston": "^2.4.1",

@@ -45,12 +45,12 @@ I'm completely open to new ideas and suggestions! Put up an [issue](https://gith
 Check out the [Feature tag in Issues](https://github.com/jMavarez/Tana/labels/feature) to see all in progress and upcoming ideas.
 
 ## Development/Running
-Currently there's no excutables or installers for each platform so you have to run it with npm for now.
-```
-  yarn
-  yarn install-ffmpeg ---> Run only the first time you clone the repo
-  yarn dev
-```
+Currently there's no excutables or installers for each platform so here's what you need to do:
+ - Install using ```yarn```.
+ - Then run ```yarn install-ffmpeg``` (just the first time you clone the repo).
+ - Finally run ```yarn build:dev``` and in a separate terminal run ```yarn start```.
+
+__UPDATE__: Windows installer is coming soon! Other OSs will come eventually, still trying to make some time to work on this.
 
 ## Chrome Extension
 

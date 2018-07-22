@@ -1,6 +1,21 @@
-const webpack = require('webpack');
-const path = require('path');
 const { RENDERER_INPUT, MAIN_INPUT, BUILD_OUTPUT } = require('./bin/config');
+const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const path = require('path');
+const Log = require('./bin/log');
+
+const plugins = (env) => {
+  const p = [];
+
+  if (env.IS_PRODUCTION) {
+    p.push(new UglifyJSPlugin({
+      parallel: true,
+      sourceMap: true
+    }));
+  }
+
+  return p;
+};
 
 const baseConfig = (env) => ({
   plugins: [
@@ -15,11 +30,12 @@ const baseConfig = (env) => ({
     new webpack.DefinePlugin({
       'process.env.FLUENTFFMPEG_COV': false
     })
-  ],
+  ].concat(plugins(env)),
   node: { __dirname: false },
 });
 
 const rendererConfig = (env) => Object.assign(
+  {},
   baseConfig(env),
   {
     entry: { renderer: RENDERER_INPUT },
@@ -29,6 +45,7 @@ const rendererConfig = (env) => Object.assign(
 );
 
 const mainConfig = (env) => Object.assign(
+  {},
   baseConfig(env),
   {
     entry: { main: MAIN_INPUT },
@@ -37,7 +54,10 @@ const mainConfig = (env) => Object.assign(
   }
 );
 
-module.exports = (env = {}) => [
-  mainConfig(env),
-  rendererConfig(env),
-];
+module.exports = (env = {}) => {
+  Log.info(`WEBPACK ENV: \n${JSON.stringify(env, ' ', 2)}\n`);
+  return [
+    mainConfig(env),
+    rendererConfig(env),
+  ];
+};
