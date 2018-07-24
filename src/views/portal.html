@@ -3,9 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <link href="index.css" rel="stylesheet" type="text/css">
+  <link href="../styles/portal.css" rel="stylesheet" type="text/css">
   <title>Tana</title>
 </head>
+<script>
+  require('../js/renderer/electron.handler.js');
+</script>
 
 <body>
   <div id="titlebar">
@@ -32,7 +35,9 @@
       </div>
     </div>
   </div>
-  <script src="../build/renderer.js"></script>
+  <script>
+    require('../js/renderer/portal.js');
+  </script>
 </body>
 
 </html>

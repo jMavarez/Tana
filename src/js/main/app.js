@@ -1,44 +1,43 @@
-import './error.handler';
+import '../error.handler';
 import electron, {
   app,
   BrowserWindow,
   globalShortcut,
 } from 'electron';
-// import widevine from 'electron-widevinecdm';
 
 import { createServer } from './server';
-import { windowExists } from './window.utils'
-import * as tray from './tray';
-import * as windowManager from './window.manager';
-// import { MASK_RADIUS } from './config';
+import {
+  init as trayInit,
+  addWindowItem as trayAddWindowItem,
+  addToRecentlyOpened as trayAddToRecentlyOpened,
+  removeWindowItem as trayRemoveWindowItem,
+} from './tray';
+import { windowExists } from '../helpers/window.utils';
+import {
+  add as windowManagerAdd,
+  remove as windowManagerRemove,
+} from '../helpers/window.manager';
 
 let refreshMousePointerId = null;
 let shouldMoveSeeThrough = false;
 
-// Test on MacOS
-// if (process.platform !== 'win32') {
-//   console.log('Loading widevine...');
-//   widevine.load(app);
-// }
-// TODO: Get widevinecdm working on Windows
-
 app.on('ready', () => {
-  tray.init();
+  trayInit();
 
   // Init server
   app.server = createServer(app);
   app.openLink = ({ link, newWindow }) => {
-    windowManager.add({ type: 'link', payload: link });
+    windowManagerAdd({ type: 'link', payload: link });
   }
 
   app.on('addWindowToTray', ({ label, id }) => {
-    tray.addWindowItem({ label, id });
+    trayAddWindowItem({ label, id });
   });
 
   app.on('removeWindowFromStack', ({ id, title, type, payload }) => {
-    windowManager.remove(id);
-    tray.removeWindowItem(id);
-    tray.addToRecentlyOpened({ label: title, data: { type: 'link', payload: payload } });
+    windowManagerRemove(id);
+    trayRemoveWindowItem(id);
+    trayAddToRecentlyOpened({ label: title, data: { type: 'link', payload: payload } });
   });
 
   //Setup shortcuts

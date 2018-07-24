@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const cp = require('child_process')
-const config = require('../src/config')
+const config = require('./config')
 const electronPackager = require('electron-packager')
 const fs = require('fs')
 const path = require('path')
@@ -41,7 +41,7 @@ function package() {
 
   log.info('Webpack: Building...')
   cp.execSync(
-    `webpack --mode=production --env.IS_PRODUCTION --env.IS_PACKAGED`,
+    `yarn build:packaged`,
     { NODE_ENV: 'production', stdio: 'inherit' }
   )
   log.success('Webpack: Done build.')

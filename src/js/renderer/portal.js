@@ -1,24 +1,23 @@
-import './error.handler';
 import { ipcRenderer, remote, shell } from 'electron';
 import Plyr from 'plyr';
 
-import { getEmbededUrl, isMediaLink } from './url.utils';
-import { moveSeeThrough, disableMoveSeeThrough } from './window.utils';
-import { PORT, MUTE_IMG, UNMUTE_IMG } from './config';
+import { getEmbededUrl, isMediaLink } from '../helpers/url.utils';
+import { moveSeeThrough, disableMoveSeeThrough } from '../helpers/window.utils';
+import { PORT, MUTE_IMG, UNMUTE_IMG } from '../config';
+
+import './../../styles/portal.scss';
+import './../../assets/plyr.css';
 
 window.onresize = doLayout;
 
 let titlebar = null, title = null, favicon = null, muteImg = null;
 let state = {};
 let isMuted = false;
-let previousWidth = -1, previousHeight = -1;
 
 console.log(process.versions, navigator.plugins);
 
 onload = () => {
   const windowInstance = remote.getCurrentWindow();
-  previousWidth = document.documentElement.clientWidth;
-  previousHeight = document.documentElement.clientHeight;
 
   // Menu bar
   titlebar = document.querySelector('#titlebar');
@@ -84,7 +83,6 @@ onload = () => {
 
 function doLayout(e) {
   let borderOffset = 2;
-  let widthChanged = false, heightChanged = false;
   let wrapper = document.querySelector('.wrapper');
   let controlsHeight = titlebar.offsetHeight;
   let windowWidth = document.documentElement.clientWidth;
@@ -92,33 +90,13 @@ function doLayout(e) {
   let mediaContentWidth = windowWidth - borderOffset;
   let mediaContentHeight = windowHeight - (controlsHeight + (borderOffset * 2));
 
-  // if (windowWidth != previousWidth) {
-  //   widthChanged = true;
-  // }
-
-  // if (windowHeight != previousHeight) {
-  //   heightChanged = true;
-  // }
-
   wrapper.style.width = `${mediaContentWidth}px`;
   wrapper.style.height = `${mediaContentHeight}px`;
 
   let video = document.querySelector('video');
   let webview = document.querySelector('webview');
 
-  // console.log(`widthChanged: ${widthChanged} heightChanged: ${heightChanged}`);
-  // console.log(`document: ${windowWidth} heightChanged: ${windowHeight}`);
-  // console.log(`prev w: ${previousWidth} h: ${previousHeight}`);
-  // console.log(`webview w: ${webview.offsetWidth} h: ${webview.offsetHeight}`);
-  // console.log(`media w: ${mediaContentWidth} h: ${mediaContentHeight}`);
-
   if (state.type === 'link' && isMediaLink(state.payload)) {
-    // if (widthChanged) {
-    //   console.log('dragging width');
-    // } else if (heightChanged) {
-    //   console.log('dragging height');
-    // }
-
     webview.style.width = `${windowWidth}px`;
     webview.style.height = `${windowWidth * (9 / 16)}px`;
   } else if (state.type === 'link') {
@@ -130,9 +108,6 @@ function doLayout(e) {
     video.style.width = `${windowWidth}px`;
     video.style.height = `${windowWidth * (9 / 16)}px`;
   }
-
-  // previousWidth = windowWidth;
-  // previousHeight = windowHeight;
 }
 
 function hideLoader() {

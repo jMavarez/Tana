@@ -26,7 +26,7 @@ function directory() {
 
   if (platform === 'win32') {
     prefDir = path.join(process.env.APPDATA, 'Tana');
-  } else if (platform === 'darwin'){
+  } else if (platform === 'darwin') {
     prefDir = path.join(process.env.HOME, 'Library/Application Support/Tana');
   } else {
     prefDir = path.join(process.env.HOME, '/Tana');

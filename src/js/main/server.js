@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
 
-import Log from './logger';
-import { FFMPEG_PATH, PORT } from './config';
+import Log from '../helpers/logger';
+import { FFMPEG_PATH, PORT } from '../config';
 
 ffmpeg.setFfmpegPath(FFMPEG_PATH);
 

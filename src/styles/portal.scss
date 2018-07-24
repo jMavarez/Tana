@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-html,
-body {
+html {
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -9,25 +8,31 @@ body {
     -webkit-user-select: none;
 }
 
-body:hover #titlebar {
-    opacity: 1;
-    transition: opacity 0.10s;
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden !important;
+    -webkit-user-select: none;
+    &:hover #titlebar {
+        opacity: 1;
+        transition: opacity 0.10s;
+    }
 }
 
 webview {
     background-color: white;
-}
-
-webview.hide {
-    visibility: hidden;
+    &.hide {
+        visibility: hidden;
+    }
 }
 
 video {
     background-color: black;
-}
-
-video::-webkit-media-controls-fullscreen-button {
-    display: none;
+    &::-webkit-media-controls-fullscreen-button {
+        display: none;
+    }
 }
 
 #titlebar {
@@ -127,11 +132,10 @@ video::-webkit-media-controls-fullscreen-button {
     border-color: #313131;
     overflow: hidden;
     z-index: 20;
-}
-
-.wrapper>* {
-    position: absolute;
-    z-index: 10;
+    >* {
+        position: absolute;
+        z-index: 10;
+    }
 }
 
 #loader {

@@ -1,5 +1,5 @@
 import unhandled from 'electron-unhandled';
-import Log from './logger';
+import Log from './helpers/logger';
 
 unhandled({
   logger: (error) => {

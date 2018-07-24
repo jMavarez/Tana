@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Tana</title>
+  <link rel="stylesheet" type="text/css" href="./../styles/portal-2.css" />
+  <script>
+    require('../js/renderer/electron.handler.js');
+  </script>
+</head>
+
+<body id="portal">
+  <div class="title-bar">
+    <div class="actions">
+      <div class="close action">
+        <i>X</i>
+      </div>
+      <div class="visibility action">
+        <i>-</i>
+      </div>
+      <div class="mute action">
+        <i>M</i>
+      </div>
+      <div class="unmute action">
+        <i>UM</i>
+      </div>
+    </div>
+    <div class="title-container">
+      <div class="favicon"></div>
+      <div class="title">Josue Mavarez</div>
+    </div>
+  </div>
+  <div id="container">
+    <div id="wrapper">
+      <webview id="webview" class="container" disablewebsecurity webpreferences="plugins, nodeIntegration=0" partition="persist:tana"
+        ondrop="event.preventDefault();"></webview>
+      <video id="video" class="container"></video>
+    </div>
+  </div>
+  <div id="border"></div>
+  <script>
+    require('../js/renderer/portal-2.js');
+  </script>
+</body>
+
+</html>

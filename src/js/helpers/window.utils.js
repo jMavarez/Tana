@@ -2,7 +2,10 @@ import { BrowserWindow } from 'electron';
 import path from 'path';
 import url from 'url';
 
-import { INITIAL_BOUNDS, MASK_RADIUS, STATIC_PATH } from './config';
+import { INITIAL_BOUNDS, MASK_RADIUS } from '../config';
+
+import PORTAL_VIEW from '../../views/portal.html';
+import PORTAL_VIEW_REFACTOR from '../../views/portal-2.html';
 
 export const createWindow = ({ x, y, data }) => {
   const win = new BrowserWindow({
@@ -22,7 +25,7 @@ export const createWindow = ({ x, y, data }) => {
   });
 
   win.loadURL(url.format({
-    pathname: path.join(STATIC_PATH, 'index.html'),
+    pathname: path.join(__dirname, PORTAL_VIEW_REFACTOR),
     protocol: 'file:',
     slashes: true,
   }));
