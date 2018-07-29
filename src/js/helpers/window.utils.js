@@ -5,7 +5,6 @@ import url from 'url';
 import { INITIAL_BOUNDS, MASK_RADIUS } from '../config';
 
 import PORTAL_VIEW from '../../views/portal.html';
-import PORTAL_VIEW_REFACTOR from '../../views/portal-2.html';
 
 export const createWindow = ({ x, y, data }) => {
   const win = new BrowserWindow({
@@ -25,7 +24,7 @@ export const createWindow = ({ x, y, data }) => {
   });
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, PORTAL_VIEW_REFACTOR),
+    pathname: path.join(__dirname, PORTAL_VIEW),
     protocol: 'file:',
     slashes: true,
   }));

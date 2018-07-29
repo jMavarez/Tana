@@ -123,7 +123,6 @@ const rendererConfig = (env) => Object.assign(
   {
     entry: {
       portal: PORTAL_INPUT,
-      'portal-2': PORTAL2_INPUT,
       'electron.handler': ERROR_HANDLER,
     },
     output: {

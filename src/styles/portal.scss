@@ -1,148 +1,190 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import "../../node_modules/plyr/src/sass/plyr";
+
+@import "./base";
+
+body,
 html {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden !important;
-    -webkit-user-select: none;
+    height: auto;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden !important;
-    -webkit-user-select: none;
-    &:hover #titlebar {
-        opacity: 1;
-        transition: opacity 0.10s;
-    }
+    margin: 0;
+    &:hover .title-bar {
+      opacity: 1;
+      transition: opacity 0.10s;
+  }
 }
 
-webview {
-    background-color: white;
-    &.hide {
-        visibility: hidden;
-    }
+html.hover-opacity:not(:hover) {
+    opacity: 1 !important;
+    transition: opacity .25s;
 }
 
-video {
-    background-color: black;
-    &::-webkit-media-controls-fullscreen-button {
-        display: none;
-    }
-}
-
-#titlebar {
+.title-bar {
+    display: flex;
+    position: fixed;
+    top: 0;
     opacity: 0;
-    transition: opacity 0.10s;
+    flex-wrap: nowrap;
+    justify-content: space-around;
     width: 100%;
-    height: 26px;
-    background-color: black;
-    color: white;
-    text-align: center;
+    height: $title-bar-height;
+    padding: 0 5px;
+    box-sizing: border-box;
+    user-select: none;
     -webkit-app-region: drag;
-}
-
-.buttons {
-    height: 100%;
-    padding-left: 8px;
-    padding-top: 4px;
-    float: left;
-    line-height: 0px;
-    -webkit-app-region: no-drag;
-}
-
-.button {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.close {
-    background: #F44336;
-    border: 1px solid #E53935;
-}
-
-.hide {
-    background: #3F51B5;
-    border: 1px solid #3949AB;
-}
-
-.mute {
-    background: #FFFF00;
-    border: 1px solid #FFEA00;
-}
-
-.close:active {
-    background: #D32F2F;
-    border: 1px solid #C62828;
-}
-
-.hide:active {
-    background: #303F9F;
-    border: 1px solid #283593;
-}
-
-.mute:active {
-    background: #FFD600;
-    border: 1px solid #FFC400;
-}
-
-.title {
-    margin-right: 8px;
-    padding-left: 8px;
-    display: -webkit-box;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#favicon {
-    width: 20px;
-    height: 20px;
-    padding-top: 3px;
-}
-
-#title {
-    color: white;
-    line-height: 10px;
-    vertical-align: 50%;
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-}
-
-#titlebar,
-.wrapper {
-    border-radius: 6px;
-}
-
-#media-area {
-    height: 100%;
-    position: relative;
-}
-
-.wrapper {
-    position: absolute;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #313131;
-    overflow: hidden;
-    z-index: 20;
-    >* {
+    transition: opacity .25s;
+    z-index: 5;
+    &:after {
+        content: " ";
+        display: block;
         position: absolute;
-        z-index: 10;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: $main-base-color;
+        transition: background-color .25s;
+        border-radius: 5px;
+    }
+    >div {
+        flex-grow: 0;
+        align-items: center;
+        align-self: center;
+        margin: 0 5px;
+        &:first-child {
+            margin: 0 5px 0 0;
+        }
+        &:last-child {
+            margin: 0 0 0 5px;
+        }
+    }
+    .actions {
+        flex-shrink: 0;
+        height: $title-bar-height;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        -webkit-app-region: no-drag;
+        .action {
+          display: block;
+          cursor: pointer;
+          color: #fafafa;
+          z-index: 2;
+          padding: 0 5px;
+          margin-top: 1px;
+          transition: color .25s;
+            >i {
+                display: block;
+                width: 16px;
+                height: 16px;
+            }
+            &.show {
+              display: block;
+            }
+        }
+        .mute,
+        .unmute {
+            display: none;
+        }
+    }
+    .title-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: left;
+        min-width: 0;
+        flex-grow: 1;
+        box-sizing: border-box;
+        text-align: left;
+        z-index: 1;
+        height: $title-bar-height;
+        line-height: $title-bar-height;
+        transition: color 0.25s;
+        font-family: 'Roboto', sans-serif;
+        .title {
+            color: #fafafa;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 6px;
+            padding-top: 1px;
+            font-size: 14px;
+        }
+        .favicon {
+            flex-shrink: 0;
+            flex-grow: 0;
+            position: relative;
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin-top: 1px;
+            opacity: 1;
+            border-radius: 3px;
+            transition: opacity .25s;
+            z-index: 1;
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 
-#loader {
-    z-index: 30;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #404040;
+#portal {
+    padding-top: $title-bar-height;
+    min-height: 100%;
+    #container {
+        position: relative;
+        display: block;
+        width: 100vw;
+        height: calc(100vh - #{$title-bar-height});
+        z-index: 3;
+        overflow: hidden;
+        border-radius: 6px;
+        #wrapper {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    #border {
+        position: fixed;
+        width: 100vw;
+        top: $title-bar-height;
+        left: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 4;
+        box-sizing: border-box;
+        border: 1px solid $main-base-color;
+        border-radius: 5px;
+    }
+    .container {
+        display: none;
+        height: 100%;
+        z-index: 2;
+        &.show {
+            display: flex;
+        }
+    }
+    #video {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 100%;
+        height: calc(100vh - #{$title-bar-height});
+        &::-webkit-media-controls-fullscreen-button {
+            display: none !important;
+        }
+    }
+    #webview {
+        z-index: 1;
+        background: #fff;
+        height: calc(100vh - #{$title-bar-height});
+    }
 }

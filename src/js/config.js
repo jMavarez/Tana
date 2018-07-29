@@ -16,10 +16,6 @@ const INITIAL_BOUNDS = {
 };
 const MASK_RADIUS = 200;
 const PORT = 12043;
-// const RESOURCES_PATH = path.join(__dirname, '../../');
-const STATIC_PATH = path.join(__dirname, '../static');
-const MUTE_IMG = path.join(STATIC_PATH, '/mute.png');
-const UNMUTE_IMG = path.join(STATIC_PATH, '/unmute.png');
 const TANA_ICON = DARWIN_LINUX_ICON;
 
 function ffmpegPath() {
@@ -47,9 +43,6 @@ module.exports = {
   FFMPEG_PATH,
   INITIAL_BOUNDS,
   MASK_RADIUS,
-  MUTE_IMG,
   PORT,
-  STATIC_PATH,
-  UNMUTE_IMG,
   TANA_ICON
 };

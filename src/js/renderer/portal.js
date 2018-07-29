@@ -1,244 +1,181 @@
 import { ipcRenderer, remote, shell } from 'electron';
+import $ from 'dombo';
 import Plyr from 'plyr';
 
-import { getEmbededUrl, isMediaLink } from '../helpers/url.utils';
+// Dombo extentions.
+require('./dombo.ext')($);
+
 import { moveSeeThrough, disableMoveSeeThrough } from '../helpers/window.utils';
-import { PORT, MUTE_IMG, UNMUTE_IMG } from '../config';
+import { getEmbededUrl } from '../helpers/url.utils';
+import { PORT } from '../config';
 
-import './../../styles/portal.scss';
+import '../../styles/portal.scss';
 
-window.onresize = doLayout;
+const windowInstance = remote.getCurrentWindow();
 
-let titlebar = null, title = null, favicon = null, muteImg = null;
+const $title = $('.title');
+const $favicon = $('.favicon > img');
+const $close = $('.close');
+const $hide = $('.hide');
+const $muteControl = $('.mute, .unmute');
+const $video = $('#video');
+const $webview = $('#webview');
+
 let state = {};
 let isMuted = false;
 
 console.log(process.versions, navigator.plugins);
 
-onload = () => {
-  const windowInstance = remote.getCurrentWindow();
-
-  // Menu bar
-  titlebar = document.querySelector('#titlebar');
-  title = document.querySelector('#title');
-  favicon = document.querySelector('#favicon');
-  let close = document.querySelector('.close');
-  let hide = document.querySelector('.hide');
-  let mute = document.querySelector('.mute');
-  muteImg = document.querySelector('#mute-img');
-
-  close.addEventListener('mouseup', () => {
-    remote.app.emit('removeWindowFromStack', {
-      id: windowInstance.id,
-      title: document.title,
-      type: state.type,
-      payload: state.payload,
-    });
+$close.on('click', () => {
+  remote.app.emit('removeWindowFromStack', {
+    id: windowInstance.id,
+    title: document.title,
+    type: state.type,
+    payload: state.payload
   });
+});
 
-  hide.addEventListener('mouseup', () => {
-    windowInstance.hide();
-    remote.app.emit('addWindowToTray', { label: document.title, id: windowInstance.id });
+$hide.on('click', () => {
+  windowInstance.hide();
+  remote.app.emit('addWindowToTray', {
+    id: windowInstance.id,
+    label: document.title
   });
+});
 
-  mute.addEventListener('mouseup', () => {
-    shouldMute(isMuted = !isMuted);
-  });
+$muteControl.on('click', () => {
+  shouldMute();
+});
 
-  ipcRenderer.once('init', (event, { type, payload }) => {
-    state = { type, payload };
+ipcRenderer.once('init', (_, { type, payload }) => {
+  state = { type, payload };
 
-    switch (type) {
-      case 'link':
-        setupWebView(payload);
-        break;
-      case 'video':
-        setupVideo(payload);
-        break;
-      case 'image':
-        // Set up image
-        break;
-      case '3dobj':
-        // Set up 3D Obj
-        break;
-      default:
-    }
-  });
-
-  ipcRenderer.on('pointer', (event, pointer) => {
-    moveSeeThrough(pointer);
-  });
-
-  ipcRenderer.on('disableMoveSeeThrough', (event, _) => {
-    windowInstance.setIgnoreMouseEvents(false);
-    disableMoveSeeThrough();
-  });
-
-  ipcRenderer.on('mute', (event, mute) => {
-    isMuted = mute;
-    shouldMute(mute);
-  });
-}
-
-function doLayout(e) {
-  let borderOffset = 2;
-  let wrapper = document.querySelector('.wrapper');
-  let controlsHeight = titlebar.offsetHeight;
-  let windowWidth = document.documentElement.clientWidth;
-  let windowHeight = document.documentElement.clientHeight;
-  let mediaContentWidth = windowWidth - borderOffset;
-  let mediaContentHeight = windowHeight - (controlsHeight + (borderOffset * 2));
-
-  wrapper.style.width = `${mediaContentWidth}px`;
-  wrapper.style.height = `${mediaContentHeight}px`;
-
-  let video = document.querySelector('video');
-  let webview = document.querySelector('webview');
-
-  if (state.type === 'link' && isMediaLink(state.payload)) {
-    webview.style.width = `${windowWidth}px`;
-    webview.style.height = `${windowWidth * (9 / 16)}px`;
-  } else if (state.type === 'link') {
-    webview.style.width = `${windowWidth}px`;
-    webview.style.height = `${windowHeight}px`;
+  switch (type) {
+    case 'link':
+      setupWebview();
+      break;
+    case 'video':
+      setupVideo();
+      break;
+    case 'image':
+      // Set up image.
+      break;
+    case '3dobj':
+      // Set up 3D Obj.
+      break;
+    default:
+    // Show error not supported file or something went wrong.
   }
+});
 
-  if (state.type === 'video') {
-    video.style.width = `${windowWidth}px`;
-    video.style.height = `${windowWidth * (9 / 16)}px`;
-  }
-}
+ipcRenderer.on('pointer', (_, pointer) => {
+  moveSeeThrough(pointer);
+});
 
-function hideLoader() {
-  let loader = document.querySelector('#loader');
-  loader.style.display = "none";
-}
+ipcRenderer.on('disableMoveSeeThrough', (_, __) => {
+  windowInstance.setIgnoreMouseEvents(false);
+  disableMoveSeeThrough();
+});
+
+ipcRenderer.on('mute', (_, mute) => {
+  shouldMute(mute);
+});
 
 function shouldMute(shouldMute) {
-  muteImg.src = shouldMute ? UNMUTE_IMG : MUTE_IMG;
+  if (shouldMute) {
+    isMuted = shouldMute;
+  } else {
+    isMuted = !isMuted;
+  }
+
+  $muteControl.toggleClass('show');
 
   switch (state.type) {
     case 'link':
-      let webview = document.querySelector('webview');
-      webview.setAudioMuted(shouldMute);
+      $webview.el().setAudioMuted(isMuted);
       break;
     case 'video':
-      let video = document.querySelector('video');
-      video.muted = shouldMute;
+      $video.el().muted = isMuted;
       break;
-    default:
   }
 }
 
-function setupWebView(link) {
-  let wrapper = document.querySelector('.wrapper');
-  let webview = document.createElement('webview');
-  let parsedUrl = getEmbededUrl(link);
+function setupWebview() {
+  const parsedUrl = getEmbededUrl(state.payload);
 
-  webview.src = parsedUrl;
+  $webview.el().src = parsedUrl;
+  $webview.addClass('show');
 
-  if (parsedUrl.includes('youtube')) {
-    webview.setAttribute('httpreferrer', 'https://www.youtube.com/');
-  }
-
-  webview.setAttribute('partition', 'persist:tana');
-  webview.setAttribute('plugins', '');
-
-  webview.addEventListener('dom-ready', () => {
-    webview.insertCSS(`
-      ::-webkit-scrollbar { display: none; }
-      body { background-color: black; -webkit-user-select: none; }
-    `);
-
+  $webview.on('dom-ready', () => {
     if (!IS_PRODUCTION) {
-      webview.openDevTools();
+      $webview.el().openDevTools();
     }
   });
 
-  webview.addEventListener('did-start-loading', () => {
+  $webview.on('page-title-updated', ({ title }) => {
+    $title.text(title);
+    document.title = title;
   });
 
-  webview.addEventListener('did-stop-loading', () => {
-    hideLoader();
+  $webview.on('page-favicon-updated', ({ favicons }) => {
+    $favicon.el().src = favicons[0];
   });
 
-  webview.addEventListener('page-title-updated', (page) => {
-    title.textContent = page.title;
-    document.title = page.title;
-  });
-
-  webview.addEventListener('page-favicon-updated', ({ favicons }) => {
-    favicon.src = favicons[0];
-  });
-
-  webview.addEventListener('new-window', ({ url }) => {
-    // Figure out when to open on current window
+  $webview.on('new-window', ({ url }) => {
+    // Figure out when to open on current window.
     // webview.loadURL(url);
+
     shell.openExternal(url);
   });
-
-  webview.addEventListener('error', (e) => {
-    console.log('error', e);
-  });
-
-  wrapper.append(webview);
-
-  doLayout();
 }
 
-function setupVideo(file) {
-  let filename = file.replace(/^.*[\\\/]/, '');
-  title.textContent = filename;
+function setupVideo() {
+  function setupPlyr(el) {
+    let player = new Plyr(el, {
+      debug: !IS_PRODUCTION,
+      controls:
+        ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions']
+      ,
+      fullscreen: {
+        enabled: false
+      },
+      storage: {
+        enabled: true,
+        key: 'tana'
+      }
+    });
+  }
+
+  let filename = state.payload.replace(/^.*[\\\/]/, '');
+  $title.text(filename);
   document.title = filename;
 
-  let wrapper = document.querySelector('.wrapper');
-  let video = document.createElement('video');
+  $video.el().src = state.payload;
+  $video.addClass('show');
 
-  video.setAttribute('src', file);
-
-  video.addEventListener('canplay', () => {
-    setupPlyr(video);
-    hideLoader();
+  $video.on('canplay', () => {
+    setupPlyr($video.el());
   });
 
-  video.addEventListener('error', (e) => {
+  $video.on('error', (e) => {
     console.error('video', e);
-    switch (video.error.code) {
-      case video.error.MEDIA_ERR_DECODE:
+
+    switch ($video.error.code) {
+      case $video.error.MEDIA_ERR_DECODE:
         console.error('video', 'MEDIA_ERR_DECODE');
         break;
-      case video.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+      case $video.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
         console.error('video', 'MEDIA_ERR_SRC_NOT_SUPPORTED');
-        video.setAttribute('src', `http://127.0.0.1:${PORT}/video?filepath=${encodeURIComponent(file)}`);
+        $video.el().src = `http://127.0.0.1:${PORT}/video?filepath=${encodeURIComponent(state.payload)}`;
         break;
-      case video.error.MEDIA_ERR_ABORTED:
+      case $video.error.MEDIA_ERR_ABORTED:
         console.error('video', 'MEDIA_ERR_ABORTED');
         break;
-      case video.error.MEDIA_ERR_NETWORK:
+      case $video.error.MEDIA_ERR_NETWORK:
         console.error('video', 'MEDIA_ERR_NETWORK');
         break;
       default:
-        console.error('video', video.error);
-    }
-  });
-
-  wrapper.append(video);
-
-  doLayout();
-}
-
-function setupPlyr(element) {
-  let player = new Plyr(element, {
-    debug: !IS_PRODUCTION,
-    controls:
-      ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions']
-    ,
-    fullscreen: {
-      enabled: false
-    },
-    storage: {
-      enabled: true,
-      key: 'tana'
+        console.error('video', $video.error);
     }
   });
 }
