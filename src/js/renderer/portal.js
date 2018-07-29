@@ -20,6 +20,7 @@ const $hide = $('.hide');
 const $muteControl = $('.mute, .unmute');
 const $video = $('#video');
 const $webview = $('#webview');
+const $loader = $('#loader');
 
 let state = {};
 let isMuted = false;
@@ -100,6 +101,10 @@ function shouldMute(shouldMute) {
   }
 }
 
+function hideLoader() {
+  $loader.addClass('hide');
+}
+
 function setupWebview() {
   const parsedUrl = getEmbededUrl(state.payload);
 
@@ -107,6 +112,8 @@ function setupWebview() {
   $webview.addClass('show');
 
   $webview.on('dom-ready', () => {
+    hideLoader();
+
     if (!IS_PRODUCTION) {
       $webview.el().openDevTools();
     }
@@ -155,6 +162,7 @@ function setupVideo() {
 
   $video.on('canplay', () => {
     setupPlyr($video.el());
+    hideLoader();
   });
 
   $video.on('error', (e) => {

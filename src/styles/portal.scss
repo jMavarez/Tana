@@ -187,4 +187,30 @@ html.hover-opacity:not(:hover) {
         background: #fff;
         height: calc(100vh - #{$title-bar-height});
     }
+    .loader-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: stretch;
+        background: #ececec;
+        z-index: 2;
+        &.hide {
+          display: none;
+        }
+        .text {
+          align-self: center;
+          text-align: center;
+          padding: 10px 20px;
+          font-size: 16px;
+          font-family: 'Roboto', sans-serif;
+          color: $main-base-color;
+          box-sizing: border-box;
+        }
+    }
 }
