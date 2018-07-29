@@ -1,5 +1,15 @@
 # Changelog
 
+<a name="0.3.0" />
+## 0.3.0 (July, 29th, 2018)
+
+#### Update
+- New design!
+- Simple loading screen
+
+#### Fixes
+- Better resize with css (still needs work)
+
 <a name="0.2.3" />
 ## 0.2.3 (July 22nd, 2018)
 
