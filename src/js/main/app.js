@@ -37,7 +37,7 @@ app.on('ready', () => {
   app.on('removeWindowFromStack', ({ id, title, type, payload }) => {
     windowManagerRemove(id);
     trayRemoveWindowItem(id);
-    trayAddToRecentlyOpened({ label: title, data: { type: 'link', payload: payload } });
+    trayAddToRecentlyOpened({ label: title, data: { type, payload } });
   });
 
   //Setup shortcuts
