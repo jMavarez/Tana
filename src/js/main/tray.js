@@ -1,8 +1,8 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron';
+import { app, BrowserWindow, Menu, nativeImage, Tray } from 'electron';
 
-import { APP_ICON, APP_VERSION } from './config';
-import { windowExists } from './window.utils';
-import { showAll, hideAll, muteAll, unmuteAll, add } from './window.manager';
+import { APP_ICON, APP_VERSION } from '../config';
+import { windowExists } from '../helpers/window.utils';
+import { showAll, hideAll, muteAll, unmuteAll, add } from '../helpers/window.manager';
 import { openFile } from './dialog';
 
 let tray;
@@ -58,6 +58,16 @@ let options = [
     label: `Version ${APP_VERSION}`,
     enabled: false,
   },
+  {
+    label: 'Portal 2 - Simple Web',
+    visible: !IS_PRODUCTION,
+    click: () => add({ type: 'link', payload: 'http://gondolanatura.youmarket.cl/' })
+  },
+  {
+    label: 'Portal 2 - YouTube',
+    visible: !IS_PRODUCTION,
+    click: () => add({ type: 'link', payload: 'https://www.youtube.com/watch?v=OjmcKNa3w40' })
+  }
 ];
 
 function openSettings() {
@@ -69,7 +79,10 @@ function openHistory() {
 }
 
 export function init() {
-  createTray();
+  const trayIcon = nativeImage.createFromPath(APP_ICON);
+  tray = new Tray(trayIcon);
+
+  updateTrayMenu();
 }
 
 export function addToRecentlyOpened(item) {
@@ -118,19 +131,8 @@ export function removeWindowItem(id) {
   updateTrayMenu();
 }
 
-function createTray() {
-  tray = new Tray(getIconPath());
-  updateTrayMenu();
-}
-
 function updateTrayMenu() {
   const template = [...windowsOnTray, ...options];
   const contextMenu = Menu.buildFromTemplate(template);
   tray.setContextMenu(contextMenu);
-}
-
-function getIconPath() {
-  return process.platform === 'win32'
-    ? APP_ICON + '.ico'
-    : APP_ICON + '.png'
 }

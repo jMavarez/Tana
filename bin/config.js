@@ -1,6 +1,15 @@
+const path = require('path');
+const pkg = require('../package.json');
+
 module.exports = {
-  RENDERER_INPUT: './src/renderer.js',
-  MAIN_INPUT: './src/app.js',
-  BUILD_OUTPUT: './build',
-  DIST_OUTPUT: './dist',
-}
+  APP_NAME: pkg.name,
+  APP_VERSION: pkg.version,
+  APP_AUTHOR: pkg.author.name,
+  APP_DESCRIPTION: pkg.description,
+  APP_ICON: path.join(__dirname, '../src/assets/tana'),
+  ERROR_HANDLER: path.join(__dirname, '../src/js/error.handler.js'),
+  PORTAL_INPUT: path.join(__dirname, '../src/js/renderer/portal.js'),
+  APP_INPUT: path.join(__dirname, '../src/js/main/app.js'),
+  BUILD_OUTPUT: path.join(__dirname, '../build'),
+  DIST_OUTPUT: path.join(__dirname, '../dist'),
+};
