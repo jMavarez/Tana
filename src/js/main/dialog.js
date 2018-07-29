@@ -1,18 +1,18 @@
 import { dialog } from 'electron';
+import videoExtensions from 'video-extensions';
 
 import { add as windowManagerAdd } from '../helpers/window.manager';
 
 const codeExt = ['txt', 'js'];
 const imageExt = ['jpg', 'png', 'gif'];
-const videoExt = ['mp4', 'mkv', 'avi', 'webm', 'ogg', 'flv', 'mov', '3gp'];
 
 const opts = {
   title: 'Select a file.',
   filters: [
-    // { name: 'All Files', extensions: [...videoExt, ...imageExt, ...codeExt] },
+    { name: 'All Files', extensions: [...videoExtensions] },
     // { name: 'Code', extensions: codeExt },
     // { name: 'Images', extensions: imageExt },
-    { name: 'Videos', extensions: videoExt },
+    { name: 'Videos', extensions: videoExtensions },
   ],
   properties: ['openFile']
 };
@@ -32,7 +32,7 @@ function getTypeByExtention(path) {
     type = 'code';
   } else if (imageExt.includes(ext)) {
     type = 'image';
-  } else if (videoExt.includes(ext)) {
+  } else if (videoExtensions.includes(ext)) {
     type = 'video';
   }
 
