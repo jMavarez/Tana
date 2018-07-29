@@ -25,7 +25,7 @@ const envPlugins = (env) => new webpack.DefinePlugin({
     Work around for 'Unable to resolve some modules: "./lib-cov/fluent-ffmpeg"' when using webpack:
     https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/573#issuecomment-305408048
   */
-  'process.env.FLUENTFFMPEG_COV': false,
+  // 'process.env.FLUENTFFMPEG_COV': false,
 });
 
 const minifiers = (env) => {
@@ -100,6 +100,16 @@ const baseConfig = (env) => ({
         test: /\.(css)?$/,
         loaders: [
           'file-loader?name=assets/[name].[ext]'
+        ]
+      },
+      {
+        test: /\.(otf|woff2?|eot|ttf|svg|mp4)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader?limit=1000&name=assets/[name].[ext]&publicPath=../../'
+      },
+      {
+        test: /\.(exe)$/,
+        loaders: [
+          'file-loader?name=bin/[name].[ext]&publicPath=./build/'
         ]
       },
     ],

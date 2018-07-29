@@ -59,9 +59,14 @@ let options = [
     enabled: false,
   },
   {
-    label: 'Portal 2 test',
+    label: 'Portal 2 - Simple Web',
     visible: !IS_PRODUCTION,
-    click: () => add({ type: 'link', payload: 'https://github.com/jMavarez/Tana' })
+    click: () => add({ type: 'link', payload: 'http://gondolanatura.youmarket.cl/' })
+  },
+  {
+    label: 'Portal 2 - YouTube',
+    visible: !IS_PRODUCTION,
+    click: () => add({ type: 'link', payload: 'https://www.youtube.com/watch?v=OjmcKNa3w40' })
   }
 ];
 

@@ -1,5 +1,5 @@
-let pkg = require('../../package.json');
-let path = require('path');
+const pkg = require('../../package.json');
+const path = require('path');
 const WIN_ICON = require('../assets/tana.ico');
 const DARWIN_LINUX_ICON = require('../assets/tana.png');
 
@@ -12,28 +12,21 @@ const FFMPEG_PATH = ffmpegPath();
 const INITIAL_BOUNDS = {
   width: 560,
   height: 315,
-  barHeight: 28
+  barHeight: 26
 };
 const MASK_RADIUS = 200;
 const PORT = 12043;
-const RESOURCES_PATH = path.join(__dirname, '../../');
+// const RESOURCES_PATH = path.join(__dirname, '../../');
 const STATIC_PATH = path.join(__dirname, '../static');
 const MUTE_IMG = path.join(STATIC_PATH, '/mute.png');
 const UNMUTE_IMG = path.join(STATIC_PATH, '/unmute.png');
+const TANA_ICON = DARWIN_LINUX_ICON;
 
 function ffmpegPath() {
   if (process.platform === 'win32') {
-    if (typeof IS_PACKAGED === "undefined" || !IS_PACKAGED) {
-      return path.join(__dirname, '../bin/ffmpeg/ffmpeg.exe');
-    } else {
-      return path.join(RESOURCES_PATH, 'ffmpeg.exe');
-    }
+    return require('../../bin/ffmpeg/win/ffmpeg.exe');
   } else if (process.platform === 'darwin') {
-    if (typeof IS_PACKAGED === "undefined" || !IS_PACKAGED) {
-      return path.join(__dirname, '../bin/ffmpeg/ffmpeg');
-    } else {
-      return path.join(RESOURCES_PATH, 'ffmpeg');
-    }
+    return require('../../bin/ffmpeg/osx/ffmpeg');
   }
 }
 
@@ -57,5 +50,6 @@ module.exports = {
   MUTE_IMG,
   PORT,
   STATIC_PATH,
-  UNMUTE_IMG
+  UNMUTE_IMG,
+  TANA_ICON
 };

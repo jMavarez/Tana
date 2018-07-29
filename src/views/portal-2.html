@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Tana</title>
-  <link rel="stylesheet" type="text/css" href="./../styles/portal-2.css" />
+  <link rel="stylesheet" type="text/css" href="../styles/portal-2.css" />
   <script>
     require('../js/renderer/electron.handler.js');
   </script>
@@ -14,21 +14,23 @@
   <div class="title-bar">
     <div class="actions">
       <div class="close action">
-        <i>X</i>
+        <i class="tana-icon tana-close"></i>
       </div>
-      <div class="visibility action">
-        <i>-</i>
+      <div class="hide action">
+        <i class="tana-icon tana-hide"></i>
       </div>
-      <div class="mute action">
-        <i>M</i>
+      <div class="mute action show">
+        <i class="tana-icon tana-mute"></i>
       </div>
       <div class="unmute action">
-        <i>UM</i>
+        <i class="tana-icon tana-unmute"></i>
       </div>
     </div>
     <div class="title-container">
-      <div class="favicon"></div>
-      <div class="title">Josue Mavarez</div>
+      <div class="favicon">
+        <img src="../../assets/tana.png" />
+      </div>
+      <div class="title">Loading...</div>
     </div>
   </div>
   <div id="container">

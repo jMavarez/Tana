@@ -6,7 +6,6 @@ import { moveSeeThrough, disableMoveSeeThrough } from '../helpers/window.utils';
 import { PORT, MUTE_IMG, UNMUTE_IMG } from '../config';
 
 import './../../styles/portal.scss';
-import './../../assets/plyr.css';
 
 window.onresize = doLayout;
 
