@@ -3,6 +3,7 @@ require('dotenv').config()
 const cp = require('child_process')
 const config = require('./config')
 const electronPackager = require('electron-packager')
+const winInstaller = require('electron-winstaller')
 const fs = require('fs')
 const path = require('path')
 const log = require('./log')
@@ -31,8 +32,7 @@ function package() {
   if (argv['install-deps']) {
     log.info('Reinstalling node_modules...')
     rimraf.sync(NODE_MODULES_PATH)
-    cp.execSync('npm install', { stdio: 'inherit' })
-    cp.execSync('npm dedupe', { stdio: 'inherit' })
+    cp.execSync('yarn install', { stdio: 'inherit' })
   }
 
   log.info('Deleting dist/ and build/...')
@@ -41,7 +41,7 @@ function package() {
 
   log.info('Webpack: Building...')
   cp.execSync(
-    `yarn build:packaged`,
+    'yarn build:packaged',
     { NODE_ENV: 'production', stdio: 'inherit' }
   )
   log.success('Webpack: Done build.')
@@ -57,12 +57,11 @@ function package() {
 const all = {
   appVersion: config.APP_VERSION,
   asar: {
-    unpack: 'Tana*',
-    unpackDir: 'node_modules/electron-widevinecdm/widevine'
+    unpack: '**/build/bin/**'
   },
   buildVersion: config.APP_VERSION,
   dir: ROOT_PATH,
-  ignore: /^\/src|^\/dist|^\/bin|^\/chrome-extension|^\/resources|\/(AUTHORS|CONTRIBUTORS|\.github|test|tests|test\.js|tests\.js|\.[^/]*|.*\.md|.*\.markdown)$/,
+  ignore: /^\/src|^\/dist|^\/bin|^\/chrome-extension|^\/resources|\/(AUTHORS|CONTRIBUTORS|\.github|test|tests|test\.js|tests\.js|\.[^/]*|.*\.md|.*\.markdown|.*\.lock|.*\.config.js)$/,
   name: config.APP_NAME,
   out: DIST_PATH,
   overwrite: true,
@@ -84,13 +83,9 @@ const win32 = {
     InternalName: config.APP_NAME
   },
   icon: config.APP_ICON + '.ico',
-  extraResource: [
-    path.join(__dirname, './ffmpeg/ffmpeg.exe')
-  ]
 }
 
 function buildWin32(cb) {
-  const installer = require('electron-winstaller')
   log.info('Windows: Packaging electron...')
 
   electronPackager(Object.assign({}, all, win32), (err, buildPath) => {
@@ -132,7 +127,7 @@ function buildWin32(cb) {
         })
       }
 
-      installer.createWindowsInstaller(winInstallerConfig).then(() => {
+      winInstaller.createWindowsInstaller(winInstallerConfig).then(() => {
         log.success(`Windows: Created ${destArch} ${argv.sign ? 'signed' : ''} installer.`)
 
         fs.readdirSync(DIST_PATH)

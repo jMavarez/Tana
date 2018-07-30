@@ -20,7 +20,13 @@ const TANA_ICON = DARWIN_LINUX_ICON;
 
 function ffmpegPath() {
   if (process.platform === 'win32') {
-    return require('../../bin/ffmpeg/win/ffmpeg.exe');
+    const ffmpeg = require('../../bin/ffmpeg/win/ffmpeg.exe');
+
+    if (typeof IS_PACKAGED === "undefined" || !IS_PACKAGED) {
+      return ffmpeg;
+    } else {
+      return path.join(__dirname, '../../../../build/bin/ffmpeg.exe').replace('app.asar', 'app.asar.unpacked');
+    }
   } else if (process.platform === 'darwin') {
     return require('../../bin/ffmpeg/osx/ffmpeg');
   }
