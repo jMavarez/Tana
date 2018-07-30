@@ -103,11 +103,12 @@ const baseConfig = (env) => ({
         ]
       },
       {
-        test: /\.(otf|woff2?|eot|ttf|svg|mp4)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(otf|woff2?|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: 'url-loader?limit=1000&name=assets/[name].[ext]&publicPath=../../'
       },
+      // Load ffmpeg.
       {
-        test: /\.(exe)$/,
+        test: /(ffmpeg)(.exe)?$/,
         loaders: [
           'file-loader?name=bin/[name].[ext]&publicPath=./build/'
         ]
