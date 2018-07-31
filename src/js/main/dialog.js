@@ -1,16 +1,16 @@
 import { dialog } from 'electron';
+import textExtensions from 'text-extensions';
 import videoExtensions from 'video-extensions';
 
 import { add as windowManagerAdd } from '../helpers/window.manager';
 
-const codeExt = ['txt', 'js'];
 const imageExt = ['jpg', 'png', 'gif'];
 
 const opts = {
   title: 'Select a file.',
   filters: [
-    { name: 'All Files', extensions: [...videoExtensions] },
-    // { name: 'Code', extensions: codeExt },
+    { name: 'All Files', extensions: [...textExtensions, ...videoExtensions] },
+    { name: 'Text', extensions: textExtensions },
     // { name: 'Images', extensions: imageExt },
     { name: 'Videos', extensions: videoExtensions },
   ],
@@ -28,8 +28,8 @@ function getTypeByExtention(path) {
   let type = 'none';
   let ext = path.slice((path.lastIndexOf(".") + 1));
 
-  if (codeExt.includes(ext)) {
-    type = 'code';
+  if (textExtensions.includes(ext)) {
+    type = 'text';
   } else if (imageExt.includes(ext)) {
     type = 'image';
   } else if (videoExtensions.includes(ext)) {

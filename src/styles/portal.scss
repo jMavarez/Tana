@@ -1,4 +1,5 @@
 @import "../../node_modules/plyr/src/sass/plyr";
+@import "../../node_modules/highlightjs/styles/androidstudio.css";
 
 @import "./base";
 
@@ -11,7 +12,7 @@ body {
     margin: 0;
     &:hover .title-bar {
       opacity: 1;
-      transition: opacity 0.10s;
+      transition: opacity .25s;
   }
 }
 
@@ -171,12 +172,17 @@ html.hover-opacity:not(:hover) {
             display: flex;
         }
     }
-    #video {
+    #video,
+    #webview,
+    #text {
         position: relative;
         top: 0;
         left: 0;
         margin: 0;
         width: 100%;
+        height: auto;
+    }
+    #video {
         height: calc(100vh - #{$title-bar-height});
         &::-webkit-media-controls-fullscreen-button {
             display: none !important;
@@ -186,6 +192,18 @@ html.hover-opacity:not(:hover) {
         z-index: 1;
         background: #fff;
         height: calc(100vh - #{$title-bar-height});
+    }
+    #text {
+        background: #fff;
+        box-sizing: border-box;
+        min-height: 100%;
+        >code {
+            width: 100%;
+            padding: 26px;
+            line-height: 28px;
+            font-size: 16px;
+            font-family: 'Consolas', sans-serif;
+        }
     }
     .loader-container {
         position: absolute;

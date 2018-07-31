@@ -1,6 +1,9 @@
+import fs from 'fs';
 import { ipcRenderer, remote, shell } from 'electron';
 import $ from 'dombo';
 import Plyr from 'plyr';
+import Highlightjs from 'highlightjs';
+import mime from 'mime-types';
 
 // Dombo extentions.
 require('./dombo.ext')($);
@@ -18,6 +21,7 @@ const $favicon = $('.favicon > img');
 const $close = $('.close');
 const $hide = $('.hide');
 const $muteControl = $('.mute, .unmute');
+const $text = $('#text');
 const $video = $('#video');
 const $webview = $('#webview');
 const $loader = $('#loader');
@@ -57,6 +61,9 @@ ipcRenderer.once('init', (_, { type, payload }) => {
       break;
     case 'video':
       setupVideo();
+      break;
+    case 'text':
+      setupText();
       break;
     case 'image':
       // Set up image.
@@ -153,9 +160,9 @@ function setupVideo() {
     });
   }
 
-  let filename = state.payload.replace(/^.*[\\\/]/, '');
-  $title.text(filename);
-  document.title = filename;
+  const title = getFileName(state.payload);
+  $title.text(title);
+  document.title = title;
 
   $video.el().src = state.payload;
   $video.addClass('show');
@@ -186,4 +193,32 @@ function setupVideo() {
         console.error('video', $video.error);
     }
   });
+}
+
+function setupText() {
+  const title = getFileName(state.payload);
+  $title.text(title);
+  document.title = title;
+
+  const $code = $('#text > code');
+
+  const fileType = mime.contentType(state.payload);
+  const fileExtension = mime.extension(fileType);
+
+  fs.readFile(state.payload, 'utf8', (err, data) => {
+    if (err) console.error(err);
+
+    const clazz = (fileExtension) ? `lang-${fileExtension}` : '';
+    $code.addClass(clazz);
+    $code.el().innerHTML = data;
+    $text.addClass('show');
+
+    hideLoader();
+
+    Highlightjs.initHighlighting();
+  });
+}
+
+function getFileName(file) {
+  return file.replace(/^.*[\\\/]/, '');
 }
