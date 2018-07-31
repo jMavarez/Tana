@@ -38,7 +38,7 @@
     "chalk": "^2.4.1",
     "cross-zip": "^2.1.5",
     "css-loader": "^1.0.0",
-    "dombo": "git+https://github.com/jMavarez/dombo.git#v4.0.0",
+    "dombo": "https://github.com/jMavarez/dombo#v4.0.1",
     "dotenv": "^6.0.0",
     "electron": "^1.8.4",
     "electron-packager": "^12.0.1",
