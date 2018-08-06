@@ -6,13 +6,13 @@
 
 [![license](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-Bringing the Picture-in-Picture experience to desktop. Let's you keep a window in front of everything, whether it is a webpage or a video.
+Bringing the Picture-in-Picture experience to the desktop. Lets you keep a window in front of everything, whether it is a webpage or a video.
 
 ![screenshot_1](./resources/screenshot_1.png)
 
 ## Story time 🙌
 
-A few months ago I started looking for a program that let me have a Picture-in-Picture mode on a Windows machine, primarily to watch Netflix and YouTube/Twitch streamings (mainly e-sports) while coding, found nothing that met my needs. Reading on [electron's reddit](https://www.reddit.com/r/electronjs/) I came across with this [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/), it's about the process of publishing an Electron app to the App Store, turns out that app was about what I've been looking for, but sadly it's only available on MacOS (Can't afford a Mac 😔) so I decided to give it try at developing my own.
+A few months ago I started looking for a program that let me have a Picture-in-Picture mode on a Windows machine, primarily to watch Netflix and YouTube/Twitch streams (mainly e-sports) while coding, found nothing that met my needs. Reading on [electron's reddit](https://www.reddit.com/r/electronjs/) I came across with this [post](https://medium.com/@yoannm/pushing-electron-on-the-mac-appstore-early-stages-7dcb85936f92/), it's about the process of publishing an Electron app to the App Store, turns out that app was about what I've been looking for, but sadly it's only available on MacOS (Can't afford a Mac 😔) so I decided to give it try at developing my own.
 
 ## Current state of the project
 
@@ -54,10 +54,10 @@ Check out the [Feature tag in Issues](https://github.com/jMavarez/Tana/labels/fe
 
 ## Development/Running
 
-Currently there's no excutables or installers for each platform so here's what you need to do:
+Currently there's no installers for each platform so here's what you need to do:
 
 - Install using ```yarn```.
-- Then run ```yarn install:ffmpeg``` (just the first time you clone the repo).
+- Then run ```yarn install:ffmpeg``` (just the first time you clone the repository).
 - Finally run ```yarn build:dev``` and in a separate terminal run ```yarn start```.
 
 __UPDATE__: Windows installer is coming soon! Other OSs will come eventually, still trying to make some time to work on this.
