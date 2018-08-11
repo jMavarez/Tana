@@ -61,7 +61,7 @@ let options = [
   {
     label: 'Portal 2 - Simple Web',
     visible: !IS_PRODUCTION,
-    click: () => add({ type: 'link', payload: 'http://gondolanatura.youmarket.cl/' })
+    click: () => add({ type: 'link', payload: 'http://github.com/jMavarez/Tana' })
   },
   {
     label: 'Portal 2 - YouTube',

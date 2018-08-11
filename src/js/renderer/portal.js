@@ -21,6 +21,8 @@ const $favicon = $('.favicon > img');
 const $close = $('.close');
 const $hide = $('.hide');
 const $muteControl = $('.mute, .unmute');
+const $opacity = $('#opacity');
+const $screen = $('#wrapper, #border');
 const $text = $('#text');
 const $video = $('#video');
 const $webview = $('#webview');
@@ -50,6 +52,13 @@ $hide.on('click', () => {
 
 $muteControl.on('click', () => {
   shouldMute();
+});
+
+$opacity.on('input', (e) => {
+  const value = e.target.value;
+  $screen.forEach(($item) => {
+    $item.style.opacity = value;
+  });
 });
 
 ipcRenderer.once('init', (_, { type, payload }) => {
