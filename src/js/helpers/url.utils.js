@@ -1,9 +1,16 @@
 export function getEmbededUrl(link) {
   let url = new URL(link);
 
-  if (link.includes('www.youtube.com/watch') && !link.includes('www.youtube.com/embed/')) {
+  if (link.includes('www.youtube.com/watch') || link.includes('www.youtube.com/playlist')) {
     let videoId = url.searchParams.get('v');
-    return `https://www.youtube.com/embed/${videoId}?fs=0&allowfullscreen="false"`;
+    let playlistId = url.searchParams.get('list');
+
+    if (playlistId) {
+      return `https://www.youtube.com/embed/videoseries?list=${playlistId}&fs=0`;
+    } else if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?fs=0`;
+    } else return link;
+
   } else if (link.includes('vimeo.com')) {
     let videoId = url.pathname.replace('/', '');
     return `https://player.vimeo.com/video/${videoId}`;
