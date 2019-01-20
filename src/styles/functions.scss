@@ -1,0 +1,9 @@
+@function makeLongShadow($color, $size, $range-slider-width) {
+  $val: 5px 0 0 $size $color;
+
+  @for $i from 6 through $range-slider-width {
+    $val: #{$val}, #{$i}px 0 0 $size #{$color};
+  }
+
+  @return $val;
+}
