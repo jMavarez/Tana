@@ -113,7 +113,7 @@ const updateMousePointerPosition = () => {
 };
 
 function getWidevineCdmPluginPath() {
-  let basePath = path.resolve(__dirname, "./node_modules/electron-widevinecdm/widevine");
+  let basePath = path.resolve("./node_modules/electron-widevinecdm/widevine");
 
   if (global.PLATFORM_DARWIN) {
     return path.join(basePath, "/darwin_x64/_platform_specific/mac_x64/widevinecdmadapter.plugin");
