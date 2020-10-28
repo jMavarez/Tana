@@ -12,11 +12,12 @@ function install() {
   const base = path.join(__dirname, '/ffmpeg');
   const winPath = path.join(base, '/win');
   const osxPath = path.join(base, '/osx');
+  const linuxPath = path.join(base, '/linux');
 
   const tasks = [
     (cb) => downloadFfmpeg('win', winPath, cb),
     (cb) => downloadFfmpeg('osx', osxPath, cb),
-    // (cb) => downloadFfmpeg('linux', '', cb)
+    (cb) => downloadFfmpeg('linux', linuxPath, cb)
   ];
 
   series(tasks, done);

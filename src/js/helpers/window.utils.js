@@ -19,8 +19,9 @@ export const createWindow = ({ x, y, data }) => {
     hasShadow: false,
     show: false,
     webPreferences: {
-      plugins: true
-    }
+      plugins: true,
+      nodeIntegration: true
+    },
   });
 
   win.loadURL(url.format({

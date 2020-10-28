@@ -19,6 +19,7 @@ const PORT = 12043;
 const TANA_ICON = DARWIN_LINUX_ICON;
 
 function ffmpegPath() {
+  console.log(process.platform)
   if (process.platform === 'win32') {
     const ffmpeg = require('../../bin/ffmpeg/win/ffmpeg.exe');
 
